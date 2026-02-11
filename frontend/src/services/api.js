@@ -60,6 +60,20 @@ export const vehiclesAPI = {
       method: 'GET'
     });
   },
+ 
+ // POST /api/veicoli 
+ create: async (vehicleData) => {
+    return await apiFetch('/veicoli', {
+      method: 'POST',
+      body: JSON.stringify(vehicleData)
+    });
+  },
+  
+  // DELETE /api/veicoli/:id
+  delete: async (id) => {
+    return await apiFetch(`/veicoli/${id}`, {
+    method: 'DELETE' });
+  }
 };
 
 // ALARMS API

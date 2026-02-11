@@ -1,4 +1,5 @@
-import { Card, CardContent, Typography, Chip, Box, LinearProgress } from '@mui/material';
+import { Card, CardContent, Typography, Chip, Box, LinearProgress, IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { 
   DirectionsCar as DirectionsCarIcon, 
   LocationOn as LocationOnIcon,
@@ -9,7 +10,7 @@ import {
 import '../../styles/VehicleCard.css';
 
 // Card singola per mostrare info veicolo
-function VehicleCard({ vehicle }) {
+function VehicleCard({ vehicle, onDelete }) {
   
   const getStatoLabel = (stato) => {
     const labels = {
@@ -144,6 +145,21 @@ function VehicleCard({ vehicle }) {
             </Typography>
           </Box>
         )}
+        
+        {/* Bottone Elimina */}
+        <IconButton
+          size="small"
+          color="error"
+          onClick={() => {
+            if (window.confirm(`Eliminare il veicolo ${vehicle.targa}?`)) {
+              onDelete(vehicle._id);
+            }
+          }}
+          sx={{ position: 'absolute', top: 8, right: 8 }}
+          title="Elimina veicolo"
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>    
       </CardContent>
     </Card>   
   );

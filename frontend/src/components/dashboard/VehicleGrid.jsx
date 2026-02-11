@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Grid, Typography, Box, CircularProgress, Alert, TextField, InputAdornment } from '@mui/material';
+import { Grid, Typography, Box, CircularProgress, Alert, TextField, InputAdornment, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import VehicleCard from './VehicleCard';
 import { vehiclesAPI } from '../../services/api';
@@ -67,6 +67,20 @@ function VehicleGrid() {
     console.log('renderGriglia() chiamato con', datiVeicoli.length, 'veicoli');
     setVehicles(datiVeicoli);
   };
+  
+  const handleDelete = async (vehicleId) => {
+    try {
+      console.log('Eliminazione veicolo:', vehicleId);
+      await vehiclesAPI.delete(vehicleId);
+      console.log('Veicolo eliminato con successo');
+    
+      // Ricarica lista veicoli
+      getListaVeicoli();
+    } catch (err) {
+      console.error('Errore eliminazione veicolo:', err);
+      alert('Errore durante l\'eliminazione: ' + err.message);
+    }
+  };
 
   // Mostro spinner durante caricamento
   if (loading) {
@@ -83,33 +97,59 @@ function VehicleGrid() {
   }
 
   return (
-    <Box>
-      {/* Header con titolo */}
-      <Box className="vehicle-grid-header">
-       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+  <Box>
+    {/* Header con titolo */}
+    <Box className="vehicle-grid-header">
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
         <Typography variant="h4" className="vehicle-grid-title">
-        Flotta Veicoli ({filteredVehicles.length}{vehicles.length !== filteredVehicles.length ? ` di ${vehicles.length}` : ''})
-         </Typography>
+          Flotta Veicoli ({filteredVehicles.length}{vehicles.length !== filteredVehicles.length ? ` di ${vehicles.length}` : ''})
+        </Typography>
 
-        {/* Campo ricerca */}
-        <TextField
-          label="Cerca veicolo"
-          variant="outlined"
-          size="small"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Targa, autista, numero..."
-          sx={{ minWidth: 280 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon color="action" />
-              </InputAdornment>
-            ),
-          }}
-        />
+        {/* Box per Ricerca + Bottone Aggiungi */}
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+          {/* Campo ricerca */}
+          <TextField
+            label="Cerca veicolo"
+            variant="outlined"
+            size="small"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Targa, autista, numero..."
+            sx={{ minWidth: 280 }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon color="action" />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {/* AGGIUNGI BOTTONE */}
+          <Button
+            variant="contained"
+            onClick={() => {
+              const targa = prompt('Targa:');
+              const autista = prompt('Nome autista:');
+              const numero = prompt('Numero autista:');
+              
+              if (targa && autista && numero) {
+                vehiclesAPI.create({ targa, nomeAutista: autista, numeroAutista: numero })
+                  .then(() => {
+                    alert('Veicolo aggiunto!');
+                    getListaVeicoli();
+                  })
+                  .catch(err => alert('Errore: ' + err.message));
+              }
+            }}
+            sx={{ whiteSpace: 'nowrap' }}
+          >
+            ➕ Aggiungi
+          </Button>
+        </Box>
       </Box>
-     </Box>
+    </Box>
+
 
      
       {/* Griglia veicoli - Zeimpekis pag. 162 suggerisce layout responsive */}
@@ -120,7 +160,10 @@ function VehicleGrid() {
             size={{ xs: 12, sm: 6, md: 4 }}
             className="custom-grid-item"
           >
-            <VehicleCard vehicle={vehicle} />
+            <VehicleCard 
+            vehicle={vehicle}
+            onDelete={handleDelete}
+            />
           </Grid> 
         ))}
       </Grid> 
