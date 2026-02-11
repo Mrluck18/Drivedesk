@@ -10,7 +10,7 @@ const app = express();
 //Domini autorizzati
 const allowedOrigins = [
     'http://localhost:5173',   // Locale
-    'drivedesk-eight.vercel.app'    //Vercel
+    'https://drivedesk-wine.vercel.app'    //Vercel
 ];
 
 //Creazione server HTTP e socket.io
