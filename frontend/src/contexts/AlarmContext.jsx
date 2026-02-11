@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { alarmsAPI } from '../services/api';
 import { socketService } from '../services/socket';
+import { useAuth } from './AuthContext';
 
 const AlarmContext = createContext();
 
@@ -18,45 +19,48 @@ export function AlarmProvider({ children }) {
 
   // Flag per evitare doppi fetch
   const [isInitialized, setIsInitialized] = useState(false);
+  
+  const { isAuthenticated } = useAuth();
 
-    // Caricamento iniziale allarmi + setup Socket.IO real-time
-    useEffect(() => {
-    if (isInitialized) return;
+  // Caricamento iniziale allarmi + setup Socket.IO real-time
+  useEffect(() => {
+  console.log('AlarmContext check:', { isAuthenticated, isInitialized });
+    
+    // Inizializza SOLO se utente è autenticato
+    if (isAuthenticated && !isInitialized) {
+    console.log('Utente autenticato - inizializzo AlarmContext');
+      
+      // Carica storico allarmi da backend
+      fetchAlarms();
 
-    // Carica storico allarmi da backend
-    fetchAlarms();
+      // Listener Socket.IO per nuovi allarmi real-time
+      socketService.onNewAlarm((socketAlarm) => {
+        console.log('Nuovo allarme ricevuto:', socketAlarm);
+        const newAlarm = {
+          id: socketAlarm.idAllarme,
+          targa: socketAlarm.targa,
+          causa: socketAlarm.messaggio,
+          stato: 'nuovo',
+          timestamp: new Date().toISOString()
+        };
+        addAlarm(newAlarm);
+      });
 
-    // Listener Socket.IO per nuovi allarmi real-time
-    socketService.onNewAlarm((socketAlarm) => {
-      console.log('🚨 Nuovo allarme ricevuto:', socketAlarm);
-      const newAlarm = {
-        id: socketAlarm.idAllarme,
-        targa: socketAlarm.targa,
-        causa: socketAlarm.messaggio,
-        stato: 'nuovo',
-        timestamp: new Date().toISOString()
-      };
-      addAlarm(newAlarm);
-    });
+      setIsInitialized(true);
+    }
 
-    setIsInitialized(true);
-
-    // Cleanup quando componente si smonta
-    return () => {
-      socketService.offNewAlarm();
-    };
-  }, [isInitialized]);
+    // Cleanup quando user fa logout
+    if (!isAuthenticated && isInitialized) {
+      console.log('Logout - pulisco AlarmContext');
+      setAlarms([]);
+      setUnseenCount(0);
+      setIsInitialized(false);
+    }
+  }, [isAuthenticated, isInitialized]);
 
   // Fetch allarmi iniziale da GET /api/allarmi
   
   const fetchAlarms = async () => {
-    // Controlla se c'è un token prima di chiamare API protetta
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.log('Nessun token - skip caricamento allarmi');
-      return;
-    }
-
     try {
       console.log('Carico storico allarmi da backend...');
       const backendAlarms = await alarmsAPI.getAll();
