@@ -38,7 +38,7 @@ exports.postTelemetria = async (req, res) => {
             const io = req.app.get('socketio');
             io.emit('nuovoAllarme', {
                 targa: veicolo.targa,
-                messaggio: `Allarme rilevato: ${guasto}`,
+                messaggio: guasto,
                 idAllarme: nuovoAllarme._id
             });
             console.log(`Attenzione, allarme per il veicolo: ${targa}`);
