@@ -2,25 +2,6 @@ const Utente = require('../models/Utente');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-//Logica registrazione
-exports.registrazione = async (req, res) => {
-    try {
-        const {email, password, ruolo} = req.body;
-        let utente = await Utente.findOne({email});
-        if (utente) return res.status(400).json({msg: 'Utente già esistente'});
-        utente = new Utente({email, password, ruolo: ruolo || 'Manager'});
-
-        //cripta la password
-        const salt = await bcrypt.genSalt(10);
-        utente.password = await bcrypt.hash(password, salt);
-
-        await utente.save();
-        res.status(201).json({msg: 'Utente registrato'});
-    } catch (errore) {
-        res.status(500).send('Errore interno del server');
-    }
-};
-
 //Logica login
 exports.login = async (req, res) => {
     try {

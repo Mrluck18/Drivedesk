@@ -35,9 +35,9 @@ POST http://localhost:5000/api/telemetria
 Content-Type: application/json
 
 {
-  "targa": "XZ 904 HP",
-  "posizione": "35.72, 27.58",
-  "velocita": 55,
+  "targa": "AT 118 ZH",
+  "posizione": "95.72, 27.58",
+  "velocita": 88,
   "livelloCarburante": 40,
-  "guasto": ""
+  "guasto": "surriscaldamento"
 }
