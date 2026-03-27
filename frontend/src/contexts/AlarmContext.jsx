@@ -70,7 +70,7 @@ export function AlarmProvider({ children }) {
           id: socketAlarm.idAllarme,
           targa: socketAlarm.targa,
           causa: socketAlarm.messaggio,
-          categoria: 'medio',
+          categoria: socketAlarm.categoria,
           stato: 'nuovo',
           timestamp: new Date().toISOString()
         };

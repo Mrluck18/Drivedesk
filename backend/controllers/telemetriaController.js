@@ -5,7 +5,7 @@ const req = require("express/lib/request");
 exports.postTelemetria = async (req, res) => {
     try {
         // Ricevo i dati
-        const {targa, posizione, velocita, livelloCarburante, guasto} = req.body;
+        const {targa, posizione, velocita, livelloCarburante, guasto, categoria} = req.body;
         //Trovo il veicolo
         const veicolo = await Veicolo.findOne({targa});
         if (!veicolo) return res.status(404).json({msg: 'Veicolo non trovato'});
@@ -28,7 +28,7 @@ exports.postTelemetria = async (req, res) => {
             const nuovoAllarme = new Allarme({
                 veicolo: veicolo._id,
                 causa: guasto,
-                categoria: 'medio',
+                categoria: categoria,
                 stato: 'nuovo',
                 timestamp: Date.now()
             });
@@ -39,7 +39,8 @@ exports.postTelemetria = async (req, res) => {
             io.emit('nuovoAllarme', {
                 targa: veicolo.targa,
                 messaggio: guasto,
-                idAllarme: nuovoAllarme._id
+                idAllarme: nuovoAllarme._id,
+                categoria: categoria || 'medio'
             });
             console.log(`Attenzione, allarme per il veicolo: ${targa}`);
         }
