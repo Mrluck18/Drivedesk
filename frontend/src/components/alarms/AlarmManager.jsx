@@ -14,12 +14,12 @@ import AlarmToast from './AlarmToast';
 function AlarmManager() {
   const { alarms } = useAlarms();
 
-  const unseenAlarms = alarms.filter(alarm => alarm.stato === 'Nuovo');
+  const unseenAlarms = alarms.filter(alarm => alarm.stato === 'nuovo');
 
   return (
     <>
-      {unseenAlarms.map(alarm => (
-        <AlarmToast key={alarm.id} alarm={alarm} />
+      {unseenAlarms.map((alarm, index) => (
+        <AlarmToast key={alarm.id} alarm={alarm} index={index} />
       ))}
     </>
   );

@@ -8,7 +8,7 @@ import '../../styles/AlarmToast.css';
  * 
  * Metodi seguono diagramma UML sequenze caso d'uso "Presa Visione"
  */
-function AlarmToast({ alarm }) {
+function AlarmToast({ alarm, index }) {
   const [open, setOpen] = useState(true);
   const { markAsSeen } = useAlarms();
 
@@ -45,12 +45,16 @@ function AlarmToast({ alarm }) {
   const handleClose = () => {
     setOpen(false);
   };
+  
+  const topOffset = 16 + index * 90; // per ogni toast
 
   return (
     <Snackbar
       open={open}
+      autoHideDuration={8000}
+      onClose={(_, reason) => { if (reason !== 'clickaway') setOpen(false); }}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      onClose={handleClose}
+      style={{ top: topOffset }}
       className="alarm-toast-snackbar"
     >
       <Alert
