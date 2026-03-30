@@ -16,8 +16,8 @@ exports.login = async (req, res) => {
                 ruolo: utente.ruolo
             }
         };
-        jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: 360000}, (err, token) => {
-            if (err) throw err;
+        jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: 18000}, (err, token) => {
+            if (err) return res.status(500).json({msg: 'Errore generazione token'});
             res.json({
                 token,
                 user: {

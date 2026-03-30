@@ -1,6 +1,5 @@
 const Veicolo = require('../models/Veicolo');
 const Allarme = require('../models/Allarme');
-const req = require("express/lib/request");
 
 exports.postTelemetria = async (req, res) => {
     try {
@@ -45,7 +44,7 @@ exports.postTelemetria = async (req, res) => {
             console.log(`Attenzione, allarme per il veicolo: ${targa}`);
         }
 
-        //Implementazione Webhook tramite per inviare una notifica ai manager tramite API di telegram
+        //Implementazione Webhook per inviare, in caso di guasto, una notifica ai manager tramite API di telegram
         try {
             const botToken = process.env.TELEGRAM_BOT_TOKEN;
             const chatId = process.env.TELEGRAM_CHAT_ID;

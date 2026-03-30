@@ -12,4 +12,4 @@ COPY . .
 # Espongo la porta 5000
 EXPOSE 5000
 # Avvio il server
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
