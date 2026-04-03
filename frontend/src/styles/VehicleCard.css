@@ -110,7 +110,7 @@
   margin-left: 4px;
 }
 
-vehicle-fuel-section {
+.vehicle-fuel-section {
   margin: 12px 0;
   padding: 12px;
   background-color: #fafafa;
@@ -217,6 +217,16 @@ vehicle-fuel-section {
 .vehicle-card.alarm-active {
   border: 2px solid #f44336 !important;
   box-shadow: 0 4px 12px rgba(244, 67, 54, 0.25) !important;
+}
+
+.fuel-bar-critical .MuiLinearProgress-bar {
+  background-color: #d32f2f !important;  /* rosso */
+}
+.fuel-bar-low .MuiLinearProgress-bar {
+  background-color: #ff9800 !important;  /* arancione */
+}
+.fuel-bar-normal .MuiLinearProgress-bar {
+  background-color: #4caf50 !important;  /* verde */
 }
 
 /* Mobile responsive */

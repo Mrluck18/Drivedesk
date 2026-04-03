@@ -53,12 +53,12 @@ function VehicleGrid() {
   
   // Filtra veicoli in base alla ricerca
   const filteredVehicles = vehicles.filter((vehicle) => {
-   const search = searchTerm.toLowerCase();
-   return (
-     vehicle.targa.toLowerCase().includes(search) ||
-     vehicle.nomeAutista.toLowerCase().includes(search) ||
-     vehicle.numeroAutista.toLowerCase().includes(search) ||
-     vehicle.stato.toLowerCase().includes(search)
+    const search = searchTerm.toLowerCase();
+    return (
+      (vehicle.targa?.toLowerCase() || '').includes(search) ||
+      (vehicle.nomeAutista?.toLowerCase() || '').includes(search) ||
+      (vehicle.numeroAutista?.toLowerCase() || '').includes(search) ||
+      (vehicle.stato?.toLowerCase() || '').includes(search)
     );
   });
 

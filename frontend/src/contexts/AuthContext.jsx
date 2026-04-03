@@ -14,10 +14,15 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
     if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
-      setIsAuthenticated(true);
-      socketService.connect();
-    }
+      try {
+        setUser(JSON.parse(savedUser));
+        setIsAuthenticated(true);
+        socketService.connect();
+      } catch { 
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      }  
+    }   
     setLoading(false);
   }, []);
 
