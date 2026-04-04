@@ -138,6 +138,7 @@ function DashboardLayout({ children }) {
         variant="temporary"
         open={mobileOpen}
         onClose={handleDrawerToggle}
+        className="custom-drawer"
         ModalProps={{
           keepMounted: true // migliora performance su mobile (letto su docs)
         }}

@@ -157,7 +157,10 @@ function VehicleGrid() {
         {filteredVehicles.map((vehicle) => (
           <Grid 
             key={vehicle._id}
-            size={{ xs: 12, sm: 6, md: 4 }}
+            item
+            xs={12}
+            sm={6}
+            md={4}
             className="custom-grid-item"
           >
             <VehicleCard 

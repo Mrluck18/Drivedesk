@@ -129,7 +129,6 @@ function AlarmsPage() {
         {/* Messaggio se nessun allarme */}
         {filteredAlarms.length === 0 && (
           <Alert severity="info" className="alarms-empty">
-            <CheckIcon sx={{ mr: 1 }} />
             Nessun allarme da visualizzare per il filtro selezionato
           </Alert>
         )}

@@ -106,6 +106,7 @@ const mailtoLink = `mailto:it@drivedesk.it?subject=Richiesta Account DriveDesk&b
               type="email"
               fullWidth
               margin="normal"
+              className="login-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="testing@drivedesk.it"
@@ -117,6 +118,7 @@ const mailtoLink = `mailto:it@drivedesk.it?subject=Richiesta Account DriveDesk&b
               type="password"
               fullWidth
               margin="normal"
+              className="login-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="test123"
@@ -128,6 +130,7 @@ const mailtoLink = `mailto:it@drivedesk.it?subject=Richiesta Account DriveDesk&b
               variant="contained"
               fullWidth
               size="large"
+              className="login-button"
               disabled={loading}
               sx={{ mt: 3 }}
             >
