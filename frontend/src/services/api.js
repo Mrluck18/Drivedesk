@@ -25,6 +25,7 @@ const apiFetch = async (endpoint, options = {}) => {
   // Gestione errore 401 (token scaduto/non valido)
   if (response.status === 401) {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     window.location.href = '/login';
     throw new Error('Sessione scaduta. Effettua nuovamente il login.');
   }
