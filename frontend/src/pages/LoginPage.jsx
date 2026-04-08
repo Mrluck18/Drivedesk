@@ -109,7 +109,7 @@ const mailtoLink = `mailto:it@drivedesk.it?subject=Richiesta Account DriveDesk&b
               className="login-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="testing@drivedesk.it"
+              placeholder="La tua email aziendale"
               disabled={loading}
             />
 
@@ -121,7 +121,7 @@ const mailtoLink = `mailto:it@drivedesk.it?subject=Richiesta Account DriveDesk&b
               className="login-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="test123"
+              placeholder="••••••••"
               disabled={loading}
             />
 

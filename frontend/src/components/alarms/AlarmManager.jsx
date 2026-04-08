@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { socketService } from '../../services/socket';
 import { useAlarms } from '../../contexts/AlarmContext';
 import AlarmToast from './AlarmToast';
 
